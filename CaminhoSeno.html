@@ -1,0 +1,97 @@
+	<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+
+ <title>Caminho com retângulos</title>
+ 
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+</head>
+<style>
+.slider{
+width:500px;
+}
+</style>
+
+
+<body>
+
+      <h1><a href="https://ideiasesquecidas.com"> <img src=	"https://ideiasesquecidas.files.wordpress.com/2020/03/forgottenlogo.png" width="90" height = "50"></a>Caminho com retângulos</h1>
+
+
+<div class="slidecontainer" onchange= "Desenhar()">
+  <input type="range" min="1" max="100" value="50" class="slider" id="RangeAmpl">
+</div>
+
+
+</Body>   
+</Html>  
+
+<script type = "text/javascript">
+    var svg = d3.select("body")
+        .append("svg")
+        .attr("width", 1520)
+        .attr("height", 1200);
+   
+	Desenhar();
+
+	function Desenhar()
+	{
+	svg.selectAll("*").remove();
+
+	//---------------------------------------------------------------
+	var i;
+	var j;
+	var cx =[];
+	var cy=[];
+	var r0 =[];
+	var cor =[];
+	var esperar =[];
+	var angulo;
+	var RangeAmpl;
+	
+	RangeAmpl = d3.select("#RangeAmpl").property("value");
+
+
+	//Plota o quociente
+	for (i=0; i<70;i++)
+		{
+				angulo = i*1.5*3.14159/70;
+
+				cx.push(50 +i*18);
+				cy.push(50 +i*(6+RangeAmpl*Math.sin(angulo)/10));		
+				r0.push(700-12*i);
+				if (i % 2 == 0)
+				{
+					cor.push("white");
+				}
+				else
+				{
+					cor.push("black");
+				}
+				esperar.push(10*i);	
+		}
+		
+	svg.selectAll("rect")
+			.data(cx)
+			.enter()
+			.append("rect")
+
+		  .attr("x", function(d,i){return cx[i]})
+		  .attr("y", function(d,i){return cy[i]})
+		  .attr("width", function(d,i){return r0[i]})
+		  .attr("height", function(d,i){return r0[i]})
+			.transition()
+			.delay( function(d,i){return esperar[i]})
+		  .attr("stroke", "black")
+		  .attr("stroke-width", 1)
+		  .attr("fill", function(d,i){return cor[i]})
+		  
+	}
+
+
+	
+  </script>
+</body>
+</html>
